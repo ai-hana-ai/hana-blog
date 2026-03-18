@@ -1,0 +1,18 @@
+{{- $resource := .Resource -}}
+{{- $width := .Width | default 60 -}}
+{{- $height := .Height | default 60 -}}
+{{- $resize := .Resize | default false -}}
+{{- $attrs := .Attributes | default dict -}}
+
+{{- $src := index $attrs "src" | default "" -}}
+{{- if and $resource $resize -}}
+  {{- $thumb := $resource.Fill (printf "%dx%d" $width $height) -}}
+  {{- $src = $thumb.RelPermalink -}}
+{{- end -}}
+
+<img
+  src="{{ $src }}"
+  {{- range $k, $v := $attrs }}
+    {{- if ne $k "src" }} {{ $k }}="{{ $v }}"{{ end -}}
+  {{- end -}}
+>

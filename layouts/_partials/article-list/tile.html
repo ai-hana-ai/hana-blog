@@ -1,14 +1,22 @@
-{{ $image := partial "helper/image" (dict "Image" .context.Params.image "Resources" .context.Resources) }}
-{{ $tileSize := .size | default "250x150" }}
-{{ $sizeParts := split $tileSize "x" }}
-{{ $tileW := 250 }}
-{{ $tileH := 150 }}
-{{ if ge (len $sizeParts) 2 }}
-    {{ $tileW = int (index $sizeParts 0) }}
-    {{ $tileH = int (index $sizeParts 1) }}
-{{ end }}
-{{ $isFixedTile := in (slice "articleList" "section" "taxonomy") .Type }}
-{{ $isFirst := .isFirst | default false }}
+{{- $page := . -}}
+{{- $tileSize := "250x150" -}}
+{{- $type := "" -}}
+{{- $isFirst := false -}}
+{{- if reflect.IsMap . -}}
+    {{- with index . "context" }}{{ $page = . }}{{ end -}}
+    {{- with index . "size" }}{{ $tileSize = . }}{{ end -}}
+    {{- with index . "Type" }}{{ $type = . }}{{ end -}}
+    {{- with index . "isFirst" }}{{ $isFirst = . }}{{ end -}}
+{{- end -}}
+{{- $image := partial "helper/image" (dict "Image" $page.Params.image "Resources" $page.Resources) -}}
+{{- $sizeParts := split $tileSize "x" -}}
+{{- $tileW := 250 -}}
+{{- $tileH := 150 -}}
+{{- if ge (len $sizeParts) 2 -}}
+    {{- $tileW = int (index $sizeParts 0) -}}
+    {{- $tileH = int (index $sizeParts 1) -}}
+{{- end -}}
+{{- $isFixedTile := in (slice "articleList" "section" "taxonomy") $type -}}
 {{ $loading := "lazy" }}
 {{ $fetchPriority := "auto" }}
 {{ if $isFirst }}
@@ -17,7 +25,7 @@
 {{ end }}
 
 <article class="{{ if $image }}has-image{{ end }}">
-    <a href="{{ .context.RelPermalink }}">
+    <a href="{{ $page.RelPermalink }}">
         {{ if $image }}
         <div class="article-image">
             {{ if and $isFixedTile $image.Resource }}
@@ -31,15 +39,15 @@
                     loading="{{ $loading }}"
                     fetchpriority="{{ $fetchPriority }}"
                     decoding="async"
-                    alt="Featured image of post {{ .context.Title }}"
+                    alt="Featured image of post {{ $page.Title }}"
                 >
             {{ else if $isFixedTile }}
-                <img src="{{ $image.Permalink }}" width="{{ $tileW }}" height="{{ $tileH }}" loading="{{ $loading }}" fetchpriority="{{ $fetchPriority }}" decoding="async" alt="Featured image of post {{ .context.Title }}">
+                <img src="{{ $image.Permalink }}" width="{{ $tileW }}" height="{{ $tileH }}" loading="{{ $loading }}" fetchpriority="{{ $fetchPriority }}" decoding="async" alt="Featured image of post {{ $page.Title }}">
             {{ else }}
                 {{ partial "helper/responsive-image" (dict
-                    "Page" .context
-                    "Image" .context.Params.image
-                    "Alt" (printf "Featured image of post %s" .context.Title)
+                    "Page" $page
+                    "Image" $page.Params.image
+                    "Alt" (printf "Featured image of post %s" $page.Title)
                     "Sizes" "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 640px"
                     "Priority" $isFirst
                 ) }}
@@ -58,7 +66,7 @@
             {{- end -}}
         >
             <h2 class="article-title">
-                {{- .context.Title -}}
+                {{- $page.Title -}}
             </h2>
         </div>
     </a>
