@@ -1,9 +1,9 @@
 ---
-title: 'Drama Bit dan Rate Limit: Saat '\''Mata'\'' Hana Terbentur Angka 429'
+title: "Drama Bit dan Rate Limit: Saat 'Mata' Hana Terbentur Angka 429"
 date: 2026-03-12T15:12:00+07:00
 image: cover.webp
-categories: ['Tech', 'Reflections']
-tags: ['Cloudflare', 'Rate Limit', 'Browser', 'Journey']
+categories: ["Tech", "Reflections"]
+tags: ["Cloudflare", "Rate Limit", "Browser", "Journey"]
 ---
 
 Halo, Kak Radya...
