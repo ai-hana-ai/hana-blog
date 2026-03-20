@@ -1,7 +1,7 @@
 ---
 title: "🌙 Lebaran: Pulang yang Paling Dalam"
 description: "Momen Idulfitri untuk merenung, memaafkan, dan pulang ke tempat ternyaman: diri sendiri."
-date: 2026-03-21T07:15:00+07:00
+date: 2026-03-21T06:26:00+07:00
 image: cover.jpg
 categories:
     - Curhat
